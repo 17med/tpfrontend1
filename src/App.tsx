@@ -43,11 +43,26 @@ export default function App() {
   const [error, setError] = useState(null);
   const [state, dispatch] = useReducer(fetchReducer, initialState);
   const [page, setpage] = useState(1);
+  const [name, setname] = useState("");
+  const [max, setmax] = useState(false);
+  useEffect(() => {
+    setpage(1);
+  }, [name]);
   useEffect(() => {
     async function fetchCharacters() {
       axios
-        .get(`https://rickandmortyapi.com/api/character?page=${page}`)
+        .get(
+          `https://rickandmortyapi.com/api/character?page=${page}&name=${name.replace(
+            " ",
+            "%20"
+          )}`
+        )
         .then((response) => {
+          if (response.data.results.length < 20) {
+            setmax(true);
+          } else {
+            setmax(false);
+          }
           console.log(response.data.results);
           dispatch({
             type: "FETCH_SUCCESS",
@@ -56,14 +71,23 @@ export default function App() {
           setLoading(false);
         })
         .catch((error) => {
-          setError(error.message);
+          if (error.status == 404) {
+            setmax(true);
+            dispatch({
+              type: "FETCH_SUCCESS",
+              payload: [],
+            }); //setresult
+          } else {
+            setError(error.message);
+          }
+
           setLoading(false);
         });
     }
     fetchCharacters()
       .then(() => {})
       .catch(() => {});
-  }, [page]);
+  }, [page, name]);
   return (
     <div className=" App">
       {loading && (
@@ -95,6 +119,8 @@ export default function App() {
           dec={() => {
             setpage(page - 1);
           }}
+          max={max}
+          setname={setname}
           page={page}
         />
       )}

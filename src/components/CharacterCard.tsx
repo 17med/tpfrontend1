@@ -7,9 +7,6 @@ export interface charactertype {
   url: string;
 }
 
-/*
-
-*/
 export default function CharacterCard({
   character,
 }: {
