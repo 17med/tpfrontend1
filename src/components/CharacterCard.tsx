@@ -6,29 +6,47 @@ export interface charactertype {
   image: string;
   url: string;
 }
-
+import { useContext } from "react";
+import { FcLike } from "react-icons/fc";
+import FavContext from "../Hooks/FavoriteContexte";
+import { FcLikePlaceholder } from "react-icons/fc";
 export default function CharacterCard({
   character,
 }: {
   character: charactertype;
 }) {
+  const { fav, ToggleFavEvent } = useContext(FavContext);
+
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      <a
-        href={`https://www.google.com/search?q=Rick+and+Morty+${character.name}+wiki`}
-      >
-        <img
-          className="rounded-t-lg"
-          src={character.image}
-          alt={character.name}
-        />
-      </a>
+      <img
+        className="rounded-t-lg"
+        src={character.image}
+        alt={character.name}
+      />
+
       <div className="p-5">
-        <a href="#">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {character.name}
-          </h5>
-        </a>
+        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          {character.name}
+          {fav.includes(character.id) ? (
+            <FcLike
+              className="inline mb-1 ml-2 hover:scale-130"
+              onClick={() => {
+                ToggleFavEvent(fav.filter((x) => x != character.id));
+              }}
+            />
+          ) : (
+            <FcLikePlaceholder
+              onClick={() => {
+                const s = [...fav];
+                s.push(character.id);
+                ToggleFavEvent(s);
+              }}
+              className="inline mb-1 ml-2 hover:scale-130"
+            />
+          )}
+        </h5>
+
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {character.status == "Alive" ? (
             <span className="text-green-600">{character.status}</span>

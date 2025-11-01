@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import ThemeContext from "../Hooks/ThemeContexte";
 export default function Navbar({
   page,
   dec,
@@ -13,10 +15,12 @@ export default function Navbar({
   max: boolean;
   search: boolean;
 }) {
+  const { theme } = useContext(ThemeContext);
+  console.log("Current theme in NavBar:", theme);
   return (
     <>
       {search ? (
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900 w-full text-center mb-4">
+        <h2 className="dark:text-white text-2xl font-bold tracking-tight text-gray-900 w-full text-center mb-4">
           Personnages de Rick and Morty
         </h2>
       ) : null}
@@ -27,7 +31,7 @@ export default function Navbar({
               onChange={(e) => setname(e.target.value)}
               type="text"
               placeholder="Rechercher un personnage..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
             />
           </div>
         ) : null}
