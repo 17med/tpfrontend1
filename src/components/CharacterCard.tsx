@@ -6,16 +6,16 @@ export interface charactertype {
   image: string;
   url: string;
 }
-import { useContext } from "react";
+
 import { FcLike } from "react-icons/fc";
-import FavContext from "../Hooks/FavoriteContexte";
+import useStore from "../Hooks/Store";
 import { FcLikePlaceholder } from "react-icons/fc";
 export default function CharacterCard({
   character,
 }: {
   character: charactertype;
 }) {
-  const { fav, ToggleFavEvent } = useContext(FavContext);
+  const { fav, ToggleFavEvent } = useStore();
 
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
