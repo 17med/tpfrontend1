@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import ThemeContext from "../Hooks/ThemeContexte";
+import useTheme from "../Hooks/Store";
 export default function Navbar({
   page,
   dec,
@@ -15,7 +14,7 @@ export default function Navbar({
   max: boolean;
   search: boolean;
 }) {
-  const { theme } = useContext(ThemeContext);
+  const {theme}=useTheme();
   console.log("Current theme in NavBar:", theme);
   return (
     <>

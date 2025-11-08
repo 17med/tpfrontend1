@@ -1,4 +1,5 @@
 import CharacterCard from "./CharacterCard";
+
 import type { charactertype } from "./CharacterCard";
 import Navbar from "./NavBar";
 function CharacterList({

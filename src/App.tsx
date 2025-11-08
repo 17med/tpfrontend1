@@ -9,6 +9,7 @@ import ThemeContext, {
 import ButtonTheme from "./components/ButtonTheme";
 import FavContext, { type favContextInterface } from "./Hooks/FavoriteContexte";
 const initialState = { loading: true, error: null, characters: [] };
+import useTheme from "./Hooks/Store";
 interface stateType {
   loading: boolean;
   error: string | null;
@@ -56,18 +57,8 @@ export default function App() {
     localStorage.fav = JSON.stringify(st);
   };
 
-  const [theme, setTheme] = useState(localStorage.theme);
-
-  const ToggleEvent = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-    if (localStorage.theme === "dark") {
-      localStorage.theme = "light";
-      setTheme("light");
-    } else {
-      localStorage.theme = "dark";
-      setTheme("dark");
-    }
-  };
+  
+  const {theme,ToggleEvent}=useTheme();
 
   const providerValue: themeContextInterface = { theme, ToggleEvent };
 
@@ -127,7 +118,9 @@ export default function App() {
   return (
     <FavContext.Provider value={favproviderValue}>
       <ThemeContext.Provider value={providerValue}>
-        <div className={`App dark:bg-gray-700 bg-white ${theme} w-full h-full`}>
+        <div
+          className={`App dark:bg-gray-700 bg-white ${theme} w-full h-screen`}
+        >
           <ButtonTheme />
           {loading && (
             <div role="status">
@@ -150,7 +143,15 @@ export default function App() {
               <span className="sr-only">Loading...</span>
             </div>
           )}
-          {error && <p style={{ color: "red " }}> Erreur : {error} </p>}
+          {error && (
+            <p
+              style={{ color: "red " }}
+              className="flex justify-center items-center mt-4 text-xl font-bold border-2 border-red-500 w-1/2 mx-auto p-4 rounded-4xl dark:bg-amber-50 dark:border-gray-600"
+            >
+              {" "}
+              Erreur : {error}{" "}
+            </p>
+          )}
           {!loading && !error && (
             <CharacterList
               characters={state.characters}
